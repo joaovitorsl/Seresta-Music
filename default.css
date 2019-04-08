@@ -1,0 +1,86 @@
+.teste{
+    margin-top: 50px
+}
+
+.rodape{
+    margin-top: 40px;
+}
+
+.botoes{
+    margin-left: 75px;
+}
+
+/*ESTE BODY É PARA O FUNDO-BASE SER PRETO E REMOVER AS BORDAS DA PÁGINA*/
+body{
+    background-color: black;
+    margin: 0;
+    height: 100%;
+}
+
+/*PROPRIEDADES DA FONTE*/
+p,table {
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+/*ESTES ARTICLES DEIXAM A PÁGINA OPACA E DESFOCADA (NÃO ME PERGUNTE O QUE ISSO SIGNIFICA)*/
+body{
+    position: relative;
+    z-index: 1;
+}
+
+article::before {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100vw; 
+    height: 100vh;  
+    opacity: .4; 
+    z-index: -1;
+    background: url(images/tec.jpg);
+    -webkit-filter: blur(15px);
+    -moz-filter: blur(15px);
+    -o-filter: blur(15px);
+    -ms-filter: blur(15px);
+    filter: blur(30px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*PROPRIEDADES DA CAPA DO ÁLBUM*/
+.capaDoAlbum{
+    float: left;
+    width: 33.30%;
+
+    margin-left: 75px;
+}
+
+/*PROPRIEDADES DA LISTA DE MÚSICAS*/
+.listaDeMusicas{
+    margin-left: 10px;
+    overflow: hidden;
+    overflow-y: hidden;
+}
+
+/*TAMANHO DA TABELA // LISTA DE MÚSICAS*/
+.lista-musicas {
+    width:760px;
+}
+
+/*REMOVER A BARRA SCROLL*/
+::-webkit-scrollbar {
+    width: 0px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+thead{
+    color: rgb(212, 212, 212)
+}

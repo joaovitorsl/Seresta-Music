@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Seresta Music</title>
+        <meta name="description" content="Player de Áudio">
+        <link rel="stylesheet" href="default.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+        $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        });
+        </script>
+
+    </head>
+    
+    <body>
+        <!--<img src="/images/Untitled-2.png" width="52" class="d-inline-block align-top" alt="">
+        <button type="button" class="btn btn-outline-success">Selecionar música</button>-->
+        <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+                <a class="navbar-brand" href="#">
+                    <img src="/logo.png" width="52" class="d-inline-block align-top" alt="">
+                </a>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" onchange="arquivo()">
+                        <label class="custom-file-label" for="inputGroupFile03">Escolher arquivo</label>
+                    </div>
+                </div>
+            </form>
+        </nav>
+
+        <!--ESTE ARTICLE SERVE PARA DEIXAR O FUNDO OPACO E EMBAÇADO E PEGA TODO O BODY-->
+        <article>
+            <!--CORPO DA PÁGINA-->
+            <div class="teste">
+                <!--CAPA DO ÁLBUM-->
+                <div class="capaDoAlbum">
+                    <img src="images/tec.jpg" alt="Capa do Álbum" height="400" width="400">
+                </div>
+                
+                <!--LISTA DE MÚSICAS // ESTE STYLE É PARA TORNAR A TABELA ROLÁVEL-->
+                <div class="lista-musicas" style="overflow-y: scroll; height:400px;">
+                    <table class="lista-musicas" id="tabela">
+                        <thead>
+                            <td><b>Faixa</b></td>
+                            <td><b>Música</b></td>
+                            <td><b>Duração</b></td>
+                        </thead>
+                        <tbody id="myTable">
+                        </tbody>
+                        
+                    </table>
+                </div>
+            </div>
+            
+            <!--NOME DA MÚSICA - ARTISTA-->
+            <div class="rodape">
+                <div class="botoes" style="float:left;">
+                    <img src="images/previous.png" id="a" alt="previous" height="70" width="70" onclick="controles(2)">
+                    <img src="images/pause.png" id="b" alt="play" height="70" width="70" onclick="controles(0)">
+                    <img src="images/next.png" id="c" alt="next" height="70" width="70" onclick="controles(3)">
+                </div>
+                <center>
+                    <p>Música - Artista</p>
+                    <audio autoplay id="audio" controls="controls">
+                        <source type="audio/mpeg"/>
+                    </audio>
+                </center>
+            </div>
+        </article>
+        <script>
+            var faixa=0;
+            var f=faixa;
+            var contador = 0;
+            listaMusicas = new Array();
+            function controles(num){
+                if(num==0){
+                    var myAudio = document.getElementById("audio");
+                    contador+=1;
+                    if(contador%2!=0){
+                        document.getElementById('b').src='images/play.png';
+                        myAudio.pause();
+                    }
+                    else{
+                        document.getElementById('b').src='images/pause.png';
+                        myAudio.play();
+                    }
+                }
+                else if(num==2){
+                    document.getElementById("audio").src = listaMusicas[f-1];
+                    f=f-1;
+                }
+                else{
+                    document.getElementById("audio").src = listaMusicas[f+1];
+                    f=f+1;
+                }
+            }
+
+            function arquivo(){
+                faixa+=1;
+                var fileVal=document.getElementById("inputGroupFile03").files[0];
+                console.log(fileVal);
+                var a = fileVal.name;
+                console.log(a);
+                listaMusicas.push(a);
+                if(faixa==1){
+                    document.getElementById("audio").src = a;
+                    f=0
+                }
+                AddTableRow();
+            }
+
+            function tempo(duracao){
+                duracao = Math.floor( duracao);
+                var horas   = Math.floor(duracao / 3600);
+                var minutos = Math.floor((duracao - (horas * 3600)) / 60);
+                var segundos = duracao - (horas * 3600) - (minutos * 60);
+                
+                if (horas   < 10)  horas    = "0"+horas;
+                if (minutos < 10)  minutos  = "0"+minutos;
+                if (segundos < 10) segundos = "0"+segundos;
+                
+                var tempo    = horas+':'+minutos+':'+segundos;
+                
+                return tempo;
+            }
+
+            (function($) {	
+                AddTableRow = function() {
+                    var t =document.getElementById("audio").duration;
+                    var newRow = $("<tr>");	    
+                    var cols = "";	
+                    cols += '<td>'+faixa+'</td>';
+                    cols += '<td>'+listaMusicas[faixa-1]+'</td>';
+                    cols += '<td>'+tempo(t)+'</td>';
+                    
+                    newRow.append(cols);
+                    $("#tabela").append(newRow);	
+                    return false;
+                };
+            })(jQuery);
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
